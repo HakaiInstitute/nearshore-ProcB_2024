@@ -1,1 +1,119 @@
-variable,long_name,units,standard_name,comment
+data_file,variable,units,comment
+20231102_sw_aggregate_ccirana.csv,project,-,Project for which the data was collected
+20231102_sw_aggregate_ccirana.csv,survey,-,Survey methods used to collect the data
+20231102_sw_aggregate_ccirana.csv,year,YYYY,Year in which the data was collected
+20231102_sw_aggregate_ccirana.csv,month,M,Month in which the data was collected
+20231102_sw_aggregate_ccirana.csv,day_month,mmm YY,Month-year in which the data was collected
+20231102_sw_aggregate_ccirana.csv,date,YYYY-MM-DD,Day on which the data was collected
+20231102_sw_aggregate_ccirana.csv,time_pt,YYYY-MM-DD HH:MM:SS,Time in PST/PDT at which the survey was started
+20231102_sw_aggregate_ccirana.csv,time_utc,YYYY-MM-DD HH:MM:SS,Time in UTC at which the survey was started
+20231102_sw_aggregate_ccirana.csv,time_utc_round,YYYY-MM-DD HH:MM:SS,"Time in UTC at which the survey was started, rounded to the nearest half hour"
+20231102_sw_aggregate_ccirana.csv,observer,-,Initials of the individual(s) who collected the data
+20231102_sw_aggregate_ccirana.csv,site_id,-,Code for the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,site_habitat,-,Dominant habitat for the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,site_latitude,decimal degrees,Latitude of the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,site_longitude,decimal degrees,Longitude of the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,site_substrate,-,Dominant geologic substrate(s) for the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,site_depth,m,Average depth of the site in which the data was collected
+20231102_sw_aggregate_ccirana.csv,transect_id,-,Code for the transect in which the data was collected
+20231102_sw_aggregate_ccirana.csv,transect_latitude,decimal degrees,Latitude of the transect in which the data was collected
+20231102_sw_aggregate_ccirana.csv,transect_longitude,decimal degrees,Longitude of the transect in which the data was collected
+20231102_sw_aggregate_ccirana.csv,transect_substrate,-,Dominant geologic substrate(s) for the transect in which the data was collected
+20231102_sw_aggregate_ccirana.csv,experimental_unit,-,"Type of experimental unit that was surveyed (i.e. quadrat, transect)"
+20231102_sw_aggregate_ccirana.csv,unit_id,-,Code for the experimental unit which was surveyed; sometimes the same as transect_id
+20231102_sw_aggregate_ccirana.csv,unit_size,m,Size of the experimental unit which was surveyed
+20231102_sw_aggregate_ccirana.csv,unit_area_2D,m^2,Two dimensional area of the experimental unit which was surveyed
+20231102_sw_aggregate_ccirana.csv,unit_area_3D,m^2,Three dimensional area of the experimental unit which was surveyed; only for intertidal data; obtained from drone mapping
+20231102_sw_aggregate_ccirana.csv,unit_substrate,-,Dominant geologic substrate(s) of the experimental unit which was surveyed
+20231102_sw_aggregate_ccirana.csv,unit_depth,m,Average real depth of of the experimental unit which was surveyed
+20231102_sw_aggregate_ccirana.csv,unit_depth_corrected,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum"
+20231102_sw_aggregate_ccirana.csv,taxon_code,-,Taxonomic code for the surveyed sea star
+20231102_sw_aggregate_ccirana.csv,latin_name,-,Latin name for the surveyed sea star
+20231102_sw_aggregate_ccirana.csv,common_name,-,Common name for the surveyed sea star
+20231102_sw_aggregate_ccirana.csv,radius,cm,"Radius of the surveyed sea star, from centre to end of arm"
+20231102_sw_aggregate_ccirana.csv,wasting,Categorical (0-4),"Wasting disease score of the surveyed sea star, from healthy (0) to dissolved (4)"
+20231102_sw_aggregate_ccirana.csv,notes,-,Any pertinent remarks about the record
+20231102_sw_aggregate_ccirana.csv,entered_by,-,Initials of the individual who entered the data
+20231102_sw_aggregate_ccirana.csv,checked_by,-,Initials of the individual who quality controlled the data
+ssbio_sswd_data_15May24.csv,unit_id_depth,-,"Concatenated field for grouped experimental unit, date, site and depth"
+ssbio_sswd_data_15May24.csv,latin_name,-,Latin name for the surveyed sea star
+ssbio_sswd_data_15May24.csv,project,-,Project for which the data was collected
+ssbio_sswd_data_15May24.csv,survey,-,Survey methods used to collect the data
+ssbio_sswd_data_15May24.csv,date,YYYY-MM-DD,Day on which the data was collected
+ssbio_sswd_data_15May24.csv,site_id,-,Code for the site in which the data was collected
+ssbio_sswd_data_15May24.csv,site_habitat,-,Dominant habitat for the site in which the data was collected
+ssbio_sswd_data_15May24.csv,site_latitude,decimal degrees,Latitude of the site in which the data was collected
+ssbio_sswd_data_15May24.csv,site_longitude,decimal degrees,Longitude of the site in which the data was collected
+ssbio_sswd_data_15May24.csv,site_substrate,-,Dominant geologic substrate(s) for the site in which the data was collected
+ssbio_sswd_data_15May24.csv,site_depth,m,Average depth of the site in which the data was collected
+ssbio_sswd_data_15May24.csv,transect_id,-,Code for the transect in which the data was collected
+ssbio_sswd_data_15May24.csv,transect_latitude,decimal degrees,Latitude of the transect in which the data was collected
+ssbio_sswd_data_15May24.csv,transect_longitude,decimal degrees,Longitude of the transect in which the data was collected
+ssbio_sswd_data_15May24.csv,transect_substrate,-,Dominant geologic substrate(s) for the transect in which the data was collected
+ssbio_sswd_data_15May24.csv,experimental_unit,-,"Type of experimental unit that was surveyed (i.e. quadrat, transect)"
+ssbio_sswd_data_15May24.csv,unit_id,-,Code for the experimental unit which was surveyed; sometimes the same as transect_id
+ssbio_sswd_data_15May24.csv,unit_size,m,Size of the experimental unit which was surveyed
+ssbio_sswd_data_15May24.csv,unit_area_2D,m^2,Two dimensional area of the experimental unit which was surveyed
+ssbio_sswd_data_15May24.csv,unit_area_3D,m^2,Three dimensional area of the experimental unit which was surveyed; only for intertidal data; obtained from drone mapping
+ssbio_sswd_data_15May24.csv,unit_depth,m,Average real depth of of the experimental unit which was surveyed
+ssbio_sswd_data_15May24.csv,unit_depth_corrected,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum"
+ssbio_sswd_data_15May24.csv,total_count,-,"Summed total of all the sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,avg_biomass,kg/m^2,"Average biomass of the sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,sd,-,"Standard deviation of the average biomass for all the sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,se,-,"Standard error of the average biomass for all the sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,density,ind/m^2,"Density of sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,biomass_density,kg/10m^2,"Biomass density of the sea stars surveyed in the unit; grouped by date, species, and depth"
+ssbio_sswd_data_15May24.csv,loc.cat,Categorical,Location category of the site in which the data was collected; outer islands or fjord
+ssbio_sswd_data_15May24.csv,depth_bin,Categorical,"Depth category; deep, mid, or shallow"
+pyc_ocean_aligned_15May24.csv,unit_id_depth,m,"Concatenated field for grouped experimental unit, date, site and depth"
+pyc_ocean_aligned_15May24.csv,latin_name,-,Latin name for the surveyed sea star
+pyc_ocean_aligned_15May24.csv,project,-,Project for which the data was collected
+pyc_ocean_aligned_15May24.csv,survey,-,Survey methods used to collect the data
+pyc_ocean_aligned_15May24.csv,date,YYYY-MM-DD,Day on which the data was collected
+pyc_ocean_aligned_15May24.csv,site_id,-,Code for the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,site_habitat,-,Dominant habitat for the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,site_latitude,decimal degrees,Latitude of the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,site_longitude,decimal degrees,Longitude of the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,site_substrate,-,Dominant geologic substrate(s) for the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,site_depth,m,Average depth of the site in which the data was collected
+pyc_ocean_aligned_15May24.csv,transect_id,-,Code for the transect in which the data was collected
+pyc_ocean_aligned_15May24.csv,transect_latitude,decimal degrees,Latitude of the transect in which the data was collected
+pyc_ocean_aligned_15May24.csv,transect_longitude,decimal degrees,Longitude of the transect in which the data was collected
+pyc_ocean_aligned_15May24.csv,transect_substrate,-,Dominant geologic substrate(s) for the transect in which the data was collected
+pyc_ocean_aligned_15May24.csv,experimental_unit,-,"Type of experimental unit that was surveyed (i.e. quadrat, transect)"
+pyc_ocean_aligned_15May24.csv,unit_id,-,Code for the experimental unit which was surveyed; sometimes the same as transect_id
+pyc_ocean_aligned_15May24.csv,unit_size,m,Size of the experimental unit which was surveyed
+pyc_ocean_aligned_15May24.csv,unit_area_2D,m^2,Two dimensional area of the experimental unit which was surveyed
+pyc_ocean_aligned_15May24.csv,unit_area_3D,m^2,Three dimensional area of the experimental unit which was surveyed; only for intertidal data; obtained from drone mapping
+pyc_ocean_aligned_15May24.csv,unit_depth,m,Average real depth of of the experimental unit which was surveyed
+pyc_ocean_aligned_15May24.csv,unit_depth_corrected,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum"
+pyc_ocean_aligned_15May24.csv,total_count,-,"Summed total of all the sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,avg_biomass,kg/m^2,"Average biomass of the sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,sd,-,"Standard deviation of the average biomass for all the sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,se,-,"Standard error of the average biomass for all the sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,density,ind/m^2,"Density of sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,biomass_density,kg/10m^2,"Biomass density of the sea stars surveyed in the unit; grouped by date, species, and depth"
+pyc_ocean_aligned_15May24.csv,loc.cat,Categorical,Location category of the site in which the data was collected; outer islands or fjord
+pyc_ocean_aligned_15May24.csv,round_depth,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum and rounded to nearest m"
+pyc_ocean_aligned_15May24.csv,Station,-,Oceanography station code for site where data was collected via CTD
+pyc_ocean_aligned_15May24.csv,bottom.depth.m,m,Deepest point of the CTD drop conducted at the site
+pyc_ocean_aligned_15May24.csv,measurement.time,YYYY-MM-DD HH:MM:SS,Time in UTC at which the CTD measurement was taken
+pyc_ocean_aligned_15May24.csv,depth.m,m,Depth at which the CTD measurement was taken
+pyc_ocean_aligned_15May24.csv,conductivity.ms.cm,µs/cm,Conductivity measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,conductivity.flag,-,Conductivity error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,temp.deg.c,°C ,Temperature measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,temp.flag,-,Temperature error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,pressure.dbar,dbar,Pressure measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,pressure.flag,-,Pressure error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,par.umol.m.s,µmol s^-1 m^-2,Photosynthetically active radiation measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,par.flag,-,Photosynthetically active radiation error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,fluorometry.chlorophyll,mg/m^3,Chlorophyll concentration measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,fluorometry.chlorophyll.flag,-,Chlorophyll concentration error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,dissolved.o2.ml.l,mL/L,Dissolved oxygen measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,dissolved.o2.ml.l.flag,-,Dissolved oxygen error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,salinity.psu,psu,Salinity measurement for the given CTD depth
+pyc_ocean_aligned_15May24.csv,salinity.flag,-,Salinity error/warning flag for the given CTD depth
+pyc_ocean_aligned_15May24.csv,ndate,integer,Date on which the data was collected; formatted for use in GAM modelling
+pyc_ocean_aligned_15May24.csv,nyear,YYYY,Year in which the data was collected
+pyc_ocean_aligned_15May24.csv,nmonth,M,Month in which the data was collected
+pyc_ocean_aligned_15May24.csv,day,integer,Day on which the data was collected; formatted for use in GAM modelling
