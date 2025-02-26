@@ -1,0 +1,76 @@
+[
+	{
+		"title" : "NTS BC Coastline Polygons 1:250,000 - Digital Baseline Mapping (NTS)",
+		"name" : "nts-bc-coastline-polygons-1-250-000-digital-baseline-mapping-nts",
+		"bcdc_data_resource_url" : "https://catalogue.data.gov.bc.ca/dataset/af9ceee9-6545-423e-b5f7-75872968704c",
+		"description" : "SDE layer containing coastlines.",
+		"purpose" : "Topographic mapping, resource inventory mapping, regional land use mapping.",
+		"bcdc_type" : "Geographic",
+		"resource_storage_location" : "Bc Geographic Warehouse",
+		"object_name" : "WHSE_BASEMAPPING.NTS_BC_COASTLINE_POLYS_125M",
+		"object_short_name" : "250_CST_PY",
+		"projection_name" : "epsg3005",
+		"license_title" : "Open Government Licence - Canada",
+		"license_url" : "https://open.canada.ca/en/open-government-licence-canada",
+		"details" : [
+			{
+				"column_name" : "AREA",
+				"data_type" : "NUMBER",
+				"data_precision" : "16",
+				"short_name" : "AREA"
+			},
+			{
+				"short_name" : "PERIMETER",
+				"column_name" : "PERIMETER",
+				"data_type" : "NUMBER",
+				"data_precision" : "12"
+			},
+			{
+				"data_type" : "VARCHAR2",
+				"short_name" : "QCST_TAG",
+				"column_name" : "QCST_TAG",
+				"data_precision" : "10"
+			},
+			{
+				"short_name" : "FCODE",
+				"column_name" : "FCODE",
+				"data_type" : "VARCHAR2",
+				"data_precision" : "10"
+			},
+			{
+				"column_comments" : "GEOMETRY is the column used to reference the spatial coordinates defining the feature. ",
+				"column_name" : "GEOMETRY",
+				"short_name" : "GEOMETRY",
+				"data_type" : "SDO_GEOMETRY",
+				"data_precision" : "1"
+			},
+			{
+				"column_comments" : "OBJECTID is a required attribute of feature classes and object classes in a geodatabase. ",
+				"data_precision" : "38",
+				"short_name" : "OBJECTID",
+				"data_type" : "NUMBER",
+				"column_name" : "OBJECTID"
+			},
+			{
+				"column_name" : "SE_ANNO_CAD_DATA",
+				"column_comments" : "SE_ANNO_CAD_DATA is a binary column used by spatial tools to store annotation, curve features and CAD data when using the SDO_GEOMETRY storage data type. ",
+				"data_type" : "BLOB",
+				"data_precision" : "4000"
+			},
+			{
+				"column_comments" : "FEATURE_AREA_SQM is the system calculated area of a two-dimensional polygon in square meters",
+				"data_type" : "NUMBER",
+				"column_name" : "FEATURE_AREA_SQM",
+				"data_precision" : "19",
+				"short_name" : "AREA_SQM"
+			},
+			{
+				"data_type" : "NUMBER",
+				"column_name" : "FEATURE_LENGTH_M",
+				"short_name" : "FEAT_LEN",
+				"data_precision" : "19",
+				"column_comments" : "FEATURE_LENGTH_M is the system calculated length or perimeter of a geometry in meters"
+			}
+		]
+	}
+]
