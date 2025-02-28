@@ -22,7 +22,6 @@ library(lubridate)
 library(RColorBrewer)
 library(mgcv)
 library(tidymv)
-#library(gamm4)
 library(cowplot)
 library(stringr)
 library(ggdist) #for fancy plots with distribtuions
@@ -32,54 +31,38 @@ library(gratia)
 library(sjPlot)
 library(vegan)
 
-## data with each line an individual size
- sswdag <- read_csv("20231102_sw_aggregate_ccirana.csv", 
+## fulldataset, all sea star species and with each line an individual size
+ sswdag <- read_csv("data/20250113_sw_aggregate_2023end.csv", 
     col_types = cols(radius = col_number(), transect_id = col_character(), unit_size = col_character(),
         transect_latitude=col_number(), transect_longitude=col_number(), 
         transect_substrate=col_character(), unit_area_2D = col_number(),
         unit_area_3D = col_number(), site_depth = col_number()))
  
-sswdag$transect_latitude[sswdag$project=="CCIRA"]<-NA
-sswdag$transect_longitude[sswdag$project=="CCIRA"]<-NA 
-sswdag$site_latitude[sswdag$project=="CCIRA"]<-NA
-sswdag$site_longitude[sswdag$project=="CCIRA"]<-NA
-
-
-
-#make a column with month
+ #make a column with month
 sswdag$month<-as.numeric(format(sswdag$date, format = "%m"))
 
-### rename ccira sites 
-sswdag$site_habitat<-ifelse(sswdag$project=="CCIRA", "CCIRA rocky subtidal",replace_na(sswdag$site_habitat, "Rocky subtidal"))
-
-## rename herring and ccira to rocky subtidal
-sswdag$site_habitat<-replace_na(sswdag$site_habitat, "Rocky subtidal")
-
+write.csv(sswdag, "20250113_sw_aggregate_2023end.csv")
 
 ## biomass density data at repeated measures sites
-ssbio<-read_csv("ssbio_sswd_data_15May24.csv")
-
-ssbio.site <- ssbio %>% dplyr::filter(latin_name=="Pycnopodia helianthoides", loc.cat=="outer") %>% group_by(site_id, date, depth_bin, site_habitat) %>% summarise(site.density=mean(density), site.density.sd=sd(density), biomass.den=avg_biomass/unit_area_2D, site.biomass=mean(biomass.den), site.biomass.sd=sd(biomass.den))
-
-ssbio.site$site_habitat<-replace_na(ssbio.site$site_habitat, "Various Subtidal")
-
+ssbio<-read_csv("data/ssbio_sswd_data_16Jan25.csv")
 
 
 ##biomass data aligned with oceanography data
-ssbio.pyc.o<-read_csv("pyc_ocean_aligned_15May24.csv")
+pyc_aligned<-read_csv("data/pyc_biology_ocean_27Feb25.csv")
 
 ```
 
 *tables of data for publication (supplement Table 2 and 3)*
 ```{r}
 
+## Table 2
 size_data<-sswdag %>% dplyr::filter(project!="CCIRA") %>% 
                       dplyr::group_by(project, survey, site_id, site_latitude, site_longitude) %>% 
                       summarize(min_year=min(year), max_year=max(year))
 
 
-## pycnopodia biomass density data used
-bd_data<-ssbio.pyc %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
+## Table 3 pycnopodia biomass density data used
+bd_data<-ssbio.pyc.o %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
                       summarize(min_year=year(min(date)), max_year=year(max(date)), n())
 
 #write.csv(bd_data, "Fig7_Table3_dataset_26Oct23.csv")
@@ -119,7 +102,7 @@ gv+theme_bw()+
 
 ```
 
-*Fig. 4*
+*Fig. 2B*
 ```{r}
 #################################################################################
 ########################### Fjord size distributions #####################
@@ -196,19 +179,31 @@ data.scores = as.data.frame(scores(size_NMS))
 size_nmds5<-cbind(size_nmds4, data.scores)
 
 
-
 ## adonis analysis - better then anosim, basically anova
 size_adonis<-adonis2(size_nmds3~loc.cat*year, data=size_nmds4)
 
 size_adonis
 
-
+#Figures S4
+## size community and location catagory
+ggplot(size_nmds5, aes(NMDS1, NMDS2, colour=loc.cat))+geom_point()+
+  stat_ellipse(aes(x=NMDS1,y=NMDS2,colour=loc.cat),level = 0.50) +
+  scale_color_manual(values=c("dodgerblue3","darkorange2")) +
+  theme_bw() +
+           theme(panel.grid.major.x = element_blank(),
+                 panel.grid.major.y = element_blank(),
+                 panel.grid.minor = element_blank(),
+                 panel.border = element_blank(),
+                 panel.background = element_blank(),
+                 text = element_text(size=15),
+                 #legend.position = "none",
+                 axis.line = element_line(colour = "black"))
 
 ```
 
-*Fig. 5*
+*Fig. 3*
 ```{r}
-
+#set figure theme
 theme_set(theme_bw() +
          theme(panel.grid.major.x = element_blank(),
                panel.grid.major.y = element_blank(),
@@ -219,16 +214,19 @@ theme_set(theme_bw() +
                #legend.position = "none",
                axis.line = element_line(colour = "black")))
 
-### number of stars showing wasting when we see them
+### filter data to only stars that were wasting is above 0 and the sumarize to count number of wasting by score
 wp.sp<- sswdag %>% dplyr::filter(project!="Rocky Intertidal", wasting>0) %>% 
         group_by(project, survey, year, day_month, date,site_id, site_habitat,latin_name, site_latitude, site_longitude, unit_depth_corrected) %>% count(wasting)
 
+## filter data to sites that are regularly surveyed over time and split by location
 wp.sp.loc<- wp.sp %>%  dplyr::filter(site_id=="Kelpie Pt" | site_id=="Mercury" | site_id=="Odlum Pt" | site_id=="Thrasher" | site_id=="kwakshua146" | site_id=="kwakshua0006" | site_id=="kwakshua154" | site_id=="kwakume5041" | site_id=="kwakume5038" | site_id=="kwakume5050"| site_id=="mustang315"| site_id=="mustang0007" | site_id=="mustang314" | site_id=="Meay" | site_id=="Triquet" | site_id=="Westbeach" | site_id=="Golden" | site_id=="Simonds"| site_id=="Stryker" | site_id=="Womanley" | site_id=="Triqster" | site_id=="Second (rr)" | site_id=="Second" | site_id=="Manley" | site_id=="Northbeach" | site_id=="Choked Pass"| site_id=="Pruth Bay" | site_id=="Triquet Macro" | site_id=="Triquet (rr)" | site_id=="Choked Lower" | site_id=="Chocked Sandspit" | site_id=="Triquet North" | site_id=="Triquet Bay" | site_id=="Triquetta" | site_id=="McMullin NE" | site_id=="McMullin South" | site_id=="McMullin North" | site_id=="Goose SW" | site_id=="Goose SE" | site_id=="Goose" | site_id=="goodlad0001" | site_id=="goodlad0003" | site_id=="goodlad224"|site_id=="burke sagen"|site_id=="burke eagle rock"|site_id=="burke doc marker"|site_id=="burke hvidsen"|site_id=="rivers hay stacks"|site_id=="rivers nelson narrows"|site_id=="rivers rutherford point") %>% 
   mutate(loc.cat=c(ifelse(site_id=="Kelpie Pt" | site_id=="Mercury" | site_id=="Odlum Pt" | site_id=="Thrasher" | site_id=="kwakshua146" | site_id=="kwakshua0006" | site_id=="kwakshua154" | site_id=="kwakume5041" | site_id=="kwakume5038" | site_id=="kwakume5050"| site_id=="mustang315"| site_id=="mustang0007" | site_id=="mustang314" | site_id=="Meay" | site_id=="Triquet" | site_id=="Westbeach" | site_id=="Golden" | site_id=="Simonds"| site_id=="Stryker" | site_id=="Womanley" | site_id=="Triqster" | site_id=="Second (rr)" | site_id=="Second" | site_id=="Manley" | site_id=="Northbeach" | site_id=="Choked Pass"| site_id=="Pruth Bay" | site_id=="Triquet Macro" | site_id=="Triquet (rr)" | site_id=="Choked Lower" | site_id=="Chocked Sandspit" | site_id=="Triquet North" | site_id=="Triquet Bay" | site_id=="Triquetta" | site_id=="McMullin NE" | site_id=="McMullin South" | site_id=="McMullin North" | site_id=="Goose SW" | site_id=="Goose SE" | site_id=="Goose" | site_id=="goodlad0001" | site_id=="goodlad0003" | site_id=="goodlad224", "outer","fjord")))
 
+#filter to only wasting stars
 wp.sp2<- sswdag %>% dplyr::filter(project!="Rocky Intertidal") %>% 
         group_by(project, survey, year, day_month, date,site_id, site_habitat,latin_name, site_latitude, site_longitude, unit_depth_corrected) %>% count(wasting)
 
+## Figure 3 - wasting score by date
 #png("wasting_score_bydate_6May24.png")
 pl2<-ggplot(wp.sp.loc)+
   geom_jitter(aes(year(date), month(date), size=factor(wasting), color=loc.cat), width = 0, height=.2, alpha=0.5)+
@@ -238,23 +236,9 @@ pl2<-ggplot(wp.sp.loc)+
 pl2
 #dev.off()
 
-
-### by species, wasting scores 
-#pdf("wasting_byspecies_bydate_1Jun23.pdf")
-#png("wasting_byspecies_bydate_1Jun23.png")
-pl1<-ggplot(wp.sp, aes(year(date), latin_name, size=factor(wasting)))+
-  geom_point()+xlab("Year")+ ylab("Species")+
-  labs(size="Wasting Score")
-pl1
-#dev.off()
-
-#### Fig. 5
-#pdf("Fig5_6May24.pdf", width=14, height=5)
-cowplot::plot_grid(pl2, pl1, labels = c("A", "B"))
-#dev.off()
 ```
 
-*Fig. 6 and Table 2 GAMs*
+*Fig. 4 and Table 2 GAMs*
 ```{r}
 library(itsadug)
 library(ggeffects)
@@ -266,18 +250,16 @@ library(sjPlot)
 ######### GAMs ###############################################
 ################################################################
 
-## removing fjords, because not sampled before wasting
+## filtered to remove sites in the fjords, because not sampled before wasting
 
-ssbio.pyc<-ssbio %>% dplyr::filter(latin_name=="Pycnopodia helianthoides"&experimental_unit!="quadrats"&loc.cat!="fjord") %>%    #removed quadrats because only 4 pycno 
+ssbio.pyc<-ssbio %>% dplyr::filter(latin_name=="Pycnopodia helianthoides"&experimental_unit!="quadrats"&loc.cat!="fjord") %>%    #removed quadrats because only 4 pycno and different collection method
                     dplyr::mutate(latitude= ifelse (site_latitude>0&!is.na(site_latitude), site_latitude, transect_latitude),
                             longitude= ifelse(site_longitude<0&!is.na(site_longitude), site_longitude, transect_longitude))
-## remove the site_latitude filter when we have added in all site lat/longs
 
 
 ### gam analysis
 
-## transform date for raw transect data
-#transform date
+## transform date for gam analysis
 ssbio.pyc <- transform(ssbio.pyc, ndate = as.numeric(date),
                     nyear  = as.numeric(format(date, '%Y')),
                     nmonth = as.numeric(format(date, '%m')),
@@ -285,14 +267,7 @@ ssbio.pyc <- transform(ssbio.pyc, ndate = as.numeric(date),
                     transectid=as.factor(transect_id))
 
 
-#transform date for site level averages
-ssbio.site <- transform(ssbio.site, ndate = as.numeric(date),
-                    nyear  = as.numeric(format(date, '%Y')),
-                    nmonth = as.numeric(format(date, '%m')),
-                    doy    = as.numeric(format(date, '%j')))
-
-
-
+#analysis for Figure 4 and Table 2
 ### gam using individual response
 gamm1.03<-mgcv::gamm(biomass_density~ depth_bin +
                           s(ndate, bs="gp", k=8) + 
@@ -314,16 +289,12 @@ appraise(gamm1.03$gam)
 
 summary(gamm1.03$gam)
 
-draw(gamm1.03)
-visreg(gamm1.03$gam)
-
 tab_model(gamm1.03$gam)
 
 ## using overleaf and then google sheets to get to final version 
 gamtabs(gamm1.03$gam, type="Latex")
 
 ### hand draw in gratia
-
 plotdata<-ssbio.pyc %>% select(date, ndate, nmonth, latitude, longitude, transectid, site_id, depth_bin, biomass_density) %>% na.omit() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01")) ## backtransforms the as.numeric(date) because somehow 1970 was the start of counting?
 
 sm <- smooth_estimates(gamm1.03) %>%
@@ -333,16 +304,16 @@ resid<- plotdata %>% add_partial_residuals(gamm1.03$gam)
   
 ## smooth over date
 cp<- sm %>%
-  dplyr::filter(smooth == "s(ndate)") %>%
+  dplyr::filter(.smooth == "s(ndate)") %>%
   ggplot() +
   geom_rug(aes(x = trans_ndate),
            data = plotdata,
            sides = "b", length = grid::unit(0.02, "npc")) +
-  geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, x = trans_ndate),
+  geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci, x = trans_ndate),
               alpha = 0.2) +
   geom_point(aes(x = trans_ndate, y = `s(ndate)`, color=site_id),
              data = resid, cex = 1.5, colour = "dodgerblue3") +
-  geom_line(aes(x = trans_ndate, y = est), lwd = 1.2) +
+  geom_line(aes(x = trans_ndate, y = .estimate), lwd = 1.2) +
   labs(y = "Partial effect", x="Date", title=expression("Biomass density (kg/10"~m^-2~")"))+
   theme_bw()+
   theme(panel.grid.major.x = element_blank(),
@@ -387,6 +358,7 @@ mp<- sm %>%
 mp
 #dev.off()
 
+#Figure 4
 #png("biomass_density_year_month_7Dec23.png", width=1000, height=960)
 cowplot::plot_grid(cp, mp, nrow=2, labels = c("A", "B"))
 #dev.off()
@@ -395,11 +367,10 @@ cowplot::plot_grid(cp, mp, nrow=2, labels = c("A", "B"))
 
 ```
 
-*Fig 7*
+*Fig 5*
 ```{r}
 
-## transform date for raw transect data
-#transform date
+#transform data for gam
 ssbio.pyc.o <- transform(pyc_aligned, ndate = as.numeric(date),
                     nyear  = as.numeric(format(date, '%Y')),
                     nmonth = as.numeric(format(date, '%m')),
@@ -410,13 +381,10 @@ ssbio.pyc.o$loc.cat<-factor(ssbio.pyc.o$loc.cat)
 ssbio.pyc.o$transect_id<-factor(ssbio.pyc.o$transect_id)
 ssbio.pyc.o$site_id<-factor(ssbio.pyc.o$site_id)
 
-#### lat long on their own without the transect as random - less concurvity issues
 ## cut to even data, taking out prior to 2021 and the unpaired july data
 ssbio.pyc.o2<-ssbio.pyc.o %>% dplyr::filter(date>"2021-01-01") %>% dplyr::filter(nmonth!="7")
 
 ### gam using individual response 
-## checked aic betwen p=1 to 3, and 1 was teh lowest aic (when data went through 2022)
-### with 2023 data, only p=3 actually converged
 gam4<-mgcv::gamm(biomass_density~ loc.cat+
                           s(ndate, bs="gp", by=loc.cat, k=10)+ 
                           s(nmonth, bs="cc", k=4)+ #region specific smooth, and 'cc" makes it so everything aligns smoothly
@@ -425,56 +393,47 @@ gam4<-mgcv::gamm(biomass_density~ loc.cat+
                           data=ssbio.pyc.o2, family=tw, 
                           control = lmeControl(msMaxIter = 1000, msMaxEval = 1000), 
                           niterPQL=30,  method="REML")#,
-                          
-## what about this corAR1(form = ~ nyear) or corARMA(form = ~ 1|nyear, p = 2, q=2)
-
-### correlation code for use --> 
-
+           
+#model evaluation               
 concurvity(gam4$gam) 
 
-## autocorrelation - according to the internet, with random chance a few lags should be outside the range, so having just one outside the range isn't a worry - https://stats.stackexchange.com/questions/202194/what-to-do-if-acf-or-pacf-show-significant-higher-lags
 res <- resid(gam4$lme, type = "normalized")
 acf(res, lag.max = 36, main = "ACF - AR(2) errors")
 pacf(res)
 
-## another way to check
 appraise(gam4$gam)
 gam.check(gam4$gam)
 gratia::qq_plot(gam4$gam)
 ## check the basis number used
 k.check(gam4$gam)
-#gamtabs(gam4$gam, type="Latex") # makes gamm table for html or latex
 
 summary(gam4$gam)
 
-### another way to plot - gratia interfaces between mgcv and ggplot
-## dist varies the spread of data off of the points
-gratia::draw(gam4$gam, residuals=T)+theme_bw()
- 
-plot.m<-gratia::draw(gam4$gam, select="s(nmonth)", partial_match=TRUE, residuals=T);plot.m
-plot.d<-gratia::draw(gam4$gam, select="s(ndate)", partial_match=TRUE, residuals=T, grouped_by=TRUE);plot.d
-
+### plotting with gratia - interfaces between mgcv and ggplot
 plot.tsf<-gratia::draw(gam4$gam, select="s(salinity.psu,temp.deg.c):loc.catfjord", 
                       partial_match=TRUE, residuals=T, dist=0.05)+xlab("Salinity (psu)")+
                       ylab(expression("Temperature " ( degree~C)))+
-                      theme(text = element_text(size=15))+
-                      scale_fill_continuous(type='viridis')+
+                      theme(text = element_text(size=18))+
+                      scale_fill_continuous(type='viridis', limits=c(-2.5, 2.5))+
                       labs(title="s(salinity, temperature)", subtitle = "Fjord"); plot.tsf
 plot.tso<-gratia::draw(gam4$gam, select="s(salinity.psu,temp.deg.c):loc.catouter", partial_match=TRUE,
                       residuals=T, dist=0.05)+xlab("Salinity (psu)")+
                       ylab(expression("Temperature " ( degree~C)))+
-                      scale_fill_continuous(type='viridis')+
-                      theme(text = element_text(size=15))+
+                      scale_fill_continuous(type='viridis', limits=c(-2.5, 2.5))+
+                      theme(text = element_text(size=18))+
                       labs(title="s(salinity, temperature)", subtitle="Outer Island"); plot.tso
+
+
 #plot.de<-gratia::draw(gam4, select="s(unit_depth_corrected)", residuals=T)
 plot.ll<-gratia::draw(gam4, select="s(site_longitude,site_latitude)", residuals=T, dist=0.05)+
-                      theme(text = element_text(size=15))+
-                      scale_fill_continuous(type='viridis')+
+                      theme(text = element_text(size=18))+
+                      scale_fill_continuous(type='viridis', limits=c(-.3, .3))+
                       labs(title="s(latitude, longitude)")
+
 
 ### Overlay map
 
-bc.sf <- 'BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125m/250_CST_PY_polygon.shp'
+bc.sf <- 'data/GIS data/BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125m/250_CST_PY_polygon.shp'
 
 bc <- st_read(bc.sf) %>% 
   subset(QCST_TAG != 'OCEAN')
@@ -491,6 +450,7 @@ plot.ll.land
 
 ### salinity by temp
 
+#Figure 5 
 ## biomass density by temp/sal
 #png("drivers_biomassdensity_31Jan24.png", width=1000, height=1000)
 bottomrow<-cowplot::plot_grid(plot.tso, plot.tsf, labels=c("B", "C"), label_size=14)
