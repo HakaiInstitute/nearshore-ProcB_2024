@@ -37,14 +37,12 @@ library(vegan)
         transect_latitude=col_number(), transect_longitude=col_number(), 
         transect_substrate=col_character(), unit_area_2D = col_number(),
         unit_area_3D = col_number(), site_depth = col_number()))
- 
- #make a column with month
-sswdag$month<-as.numeric(format(sswdag$date, format = "%m"))
 
-write.csv(sswdag, "20250113_sw_aggregate_2023end.csv")
+
+#write.csv(sswdag, "20250113_sw_aggregate_2023end.csv")
 
 ## biomass density data at repeated measures sites
-ssbio<-read_csv("data/ssbio_sswd_data_16Jan25.csv")
+ssbio<-read_csv("data/ssbio_sswd_data_27Feb25.csv")
 
 
 ##biomass data aligned with oceanography data
@@ -52,25 +50,21 @@ pyc_aligned<-read_csv("data/pyc_biology_ocean_27Feb25.csv")
 
 ```
 
-*tables of data for publication (supplement Table 2 and 3)*
-```{r}
-
-## Table 2
-size_data<-sswdag %>% dplyr::filter(project!="CCIRA") %>% 
-                      dplyr::group_by(project, survey, site_id, site_latitude, site_longitude) %>% 
-                      summarize(min_year=min(year), max_year=max(year))
-
-
-## Table 3 pycnopodia biomass density data used
-bd_data<-ssbio.pyc.o %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
-                      summarize(min_year=year(min(date)), max_year=year(max(date)), n())
-
-#write.csv(bd_data, "Fig7_Table3_dataset_26Oct23.csv")
-
-```
 
 *Fig 3*
 ```{r}
+#set figure theme
+theme_set(theme_bw() +
+         theme(panel.grid.major.x = element_blank(),
+               panel.grid.major.y = element_blank(),
+               panel.grid.minor = element_blank(),
+               panel.border = element_blank(),
+               panel.background = element_blank(),
+               text = element_text(size=15),
+               #legend.position = "none",
+               axis.line = element_line(colour = "black")))
+
+
 #### 2015 quantile regression #########
 
 size15<-sswdag %>% dplyr::filter(year==2015 & latin_name=="Pycnopodia helianthoides")
@@ -294,10 +288,11 @@ tab_model(gamm1.03$gam)
 ## using overleaf and then google sheets to get to final version 
 gamtabs(gamm1.03$gam, type="Latex")
 
+draw(gamm1.03$gam)
 ### hand draw in gratia
 plotdata<-ssbio.pyc %>% select(date, ndate, nmonth, latitude, longitude, transectid, site_id, depth_bin, biomass_density) %>% na.omit() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01")) ## backtransforms the as.numeric(date) because somehow 1970 was the start of counting?
 
-sm <- smooth_estimates(gamm1.03) %>%
+sm <- smooth_estimates(gamm1.03$gam) %>%
   add_confint() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01"))
 
 resid<- plotdata %>% add_partial_residuals(gamm1.03$gam)
@@ -460,4 +455,21 @@ cowplot::plot_grid(plot.ll.land, bottomrow, labels=c("A", ''), nrow=2, label_siz
 
 ```
 
+
+*tables of data for publication (supplement Table 2 and 3)*
+```{r}
+
+## Table 2
+size_data<-sswdag %>% dplyr::filter(project!="CCIRA") %>% 
+                      dplyr::group_by(project, survey, site_id, site_latitude, site_longitude) %>% 
+                      summarize(min_year=min(year), max_year=max(year))
+
+
+## Table 3 pycnopodia biomass density data used
+bd_data<-pyc.aligned %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
+                      summarize(min_year=year(min(date)), max_year=year(max(date)), n())
+
+#write.csv(bd_data, "Fig7_Table3_dataset_26Oct23.csv")
+
+```
 
