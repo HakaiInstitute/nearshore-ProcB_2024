@@ -259,14 +259,10 @@ AIC(gamm1.03$lme) #9448.61
   acf(resid(gamm1.03$lme, type = "normalized")) ## normalized residuals better to test
   pacf(resid(gamm1.03$lme, type = "normalized"))
 
-gam.check(gamm1.03$gam)
 appraise(gamm1.03$gam)
-
-summary(gamm1.03$gam)
 
 tab_model(gamm1.03$gam)
 
-draw(gamm1.03$gam)
 ### hand draw in gratia
 plotdata<-ssbio.pyc %>% select(date, ndate, nmonth, latitude, longitude, transectid, site_id, depth_bin, biomass_density) %>% na.omit() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01")) ## backtransforms the as.numeric(date) because somehow 1970 was the start of counting?
 
@@ -294,10 +290,6 @@ cp<- sm %>%
                #legend.position = "none",
                axis.line = element_line(colour = "black"))
 
-#png("biomass_density_2013-2023_7Dec23.png", width=1000, height=480)
-cp
-#dev.off()
-
 
 ### now with month ###
 
@@ -321,9 +313,6 @@ mp<- sm %>%
                #legend.position = "none",
                axis.line = element_line(colour = "black"))
 
-#png("biomass_density_bymonth_1Nov23.png", width=1000, height=480)
-mp
-#dev.off()
 
 #Figure 4
 #png("biomass_density_year_month_28Feb25.png", width=14, height=14, units = 'cm', res=600)
@@ -362,17 +351,11 @@ gam4<-mgcv::gamm(biomass_density~ loc.cat+
                           niterPQL=30,  method="REML")#,
            
 #model evaluation               
-concurvity(gam4$gam) 
-
 res <- resid(gam4$lme, type = "normalized")
 acf(res, lag.max = 36, main = "ACF - AR(2) errors")
 pacf(res)
 
 appraise(gam4$gam)
-gam.check(gam4$gam)
-gratia::qq_plot(gam4$gam)
-## check the basis number used
-k.check(gam4$gam)
 
 summary(gam4$gam)
 
@@ -382,13 +365,13 @@ plot.tsf<-gratia::draw(gam4$gam, select="s(salinity.psu,temp.deg.c):loc.catfjord
                       ylab(expression("Temperature " ( degree~C)))+
                       theme(text = element_text(size=18))+
                       scale_fill_continuous(type='viridis', limits=c(-2.5, 2.5))+
-                      labs(title="s(salinity, temperature)", subtitle = "Fjord"); plot.tsf
+                      labs(title="s(salinity, temperature)", subtitle = "Fjord")
 plot.tso<-gratia::draw(gam4$gam, select="s(salinity.psu,temp.deg.c):loc.catouter", partial_match=TRUE,
                       residuals=T, dist=0.05)+xlab("Salinity (psu)")+
                       ylab(expression("Temperature " ( degree~C)))+
                       scale_fill_continuous(type='viridis', limits=c(-2.5, 2.5))+
                       theme(text = element_text(size=18))+
-                      labs(title="s(salinity, temperature)", subtitle="Outer Island"); plot.tso
+                      labs(title="s(salinity, temperature)", subtitle="Outer Island")
 
 
 #plot.de<-gratia::draw(gam4, select="s(unit_depth_corrected)", residuals=T)
@@ -414,7 +397,6 @@ plot.ll.land <- plot.ll +
                                       y = site_latitude)) +
   coord_sf(xlim = c(-127.3913, -128.3646), ylim = c(51.41033, 52.08358), expand = FALSE)
 
-plot.ll.land
 #reset wd back to main files
 setwd("~/Documents/GitHub/nearshore-ProcB_2024")
 
@@ -477,7 +459,7 @@ size15<-sswdag %>% dplyr::filter(year==2015 & latin_name=="Pycnopodia helianthoi
 size15$numeric_date<-as.numeric(size15$date)
 
 quant10<-rq(radius~date, tau=0.10, data=size15)
-quant<-rq(radius~date, tau=c(0.90), data=size15)
+quant<-rq(radius~date, tau=0.90, data=size15)
 
 summary(quant, se="ker")
 summary(quant10, se="ker")
