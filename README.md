@@ -14,7 +14,7 @@ Alyssa-Lois M. Gehman1, Ondine Pontier1, Derek VanMaanen1, Tristan Blaine2, Tyre
 2Central Coast Indigenous Resource Alliance, Canada
 
 
-##Abstract
+## Abstract
 Disease outbreaks as a driver of wildlife mass mortality events have increased in magnitude and frequency since the 1940s. Remnant populations, composed of individuals that survived mass mortality events, could provide insight into disease dynamics, and species recovery. The sea star wasting disease (SSWD) epidemic led to the rapid >90% decline of the sunflower star Pycnopodia helianthoides. We surveyed the biomass density of P. helianthoides on the central British Columbia coast before, during and after the arrival of SSWD by conducting expert diver surveys in shallow subtidal habitats from 2013-2023. We found a rapid decline in biomass density following the onset of SSWD in 2015. Despite consistent recruitment post-outbreak to sites associated with outer islands, we found repeated loss of large adult individuals over multiple years. Within nearby fjord habitats, we found remnant populations composed of large adult P. helianthoides. The interaction of temperature and salinity with P. helianthoides biomass density varied by location, with high biomass density associated with higher temperatures in the outer islands, and associated with lower temperatures and higher salinity in the fjords. These patterns suggest that fjords provide refuge from consequences of SSWD and protecting these populations could be imperative for the species.
 
 ## Overview
