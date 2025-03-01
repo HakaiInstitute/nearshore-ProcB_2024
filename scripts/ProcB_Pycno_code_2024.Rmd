@@ -1,10 +1,27 @@
 ---
-title: "Untitled"
-output: html_document
-date: '2024-05-15'
-editor_options: 
+title: Code for Fjord oceanographic dynamics provide refuge for critically endangered
+  Pycnopodia helianthoides
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-02-28"
+editor_options:
   chunk_output_type: console
 ---
+
+Fjord oceanographic dynamics provide refuge for critically endangered Pycnopodia helianthoides
+
+Alyssa-Lois M. Gehman1, Ondine Pontier1, Derek VanMaanen1, Tristan Blaine2, Tyrel Froese1, Gillian Sadlier-Brown1, Angeleen M. Olson1, Zachary L. Monteith1, Krystal Bachen1, Carolyn Prentice1, Margot Hessing-Lewis1, Jennifer M. Jackson1
+
+1Hakai Institute, End of Kwakshua Channel, Canada. 
+2Central Coast Indigenous Resource Alliance, Canada
+
+Keywords: sea star wasting disease, infection, marine, refuge habitat
+
+Abstract:
+Disease outbreaks as a driver of wildlife mass mortality events have increased in magnitude and frequency since the 1940s. Remnant populations, composed of individuals that survived mass mortality events, could provide insight into disease dynamics, and species recovery. The sea star wasting disease (SSWD) epidemic led to the rapid >90% decline of the sunflower star Pycnopodia helianthoides. We surveyed the biomass density of P. helianthoides on the central British Columbia coast before, during and after the arrival of SSWD by conducting expert diver surveys in shallow subtidal habitats from 2013-2023. We found a rapid decline in biomass density following the onset of SSWD in 2015. Despite consistent recruitment post-outbreak to sites associated with outer islands, we found repeated loss of large adult individuals over multiple years. Within nearby fjord habitats, we found remnant populations composed of large adult P. helianthoides. The interaction of temperature and salinity with P. helianthoides biomass density varied by location, with high biomass density associated with higher temperatures in the outer islands, and associated with lower temperatures and higher salinity in the fjords. These patterns suggest that fjords provide refuge from consequences of SSWD and protecting these populations could be imperative for the species.
+
+
 
  *load and clean data*
 ```{r}
@@ -31,18 +48,17 @@ library(gratia)
 library(sjPlot)
 library(vegan)
 
-## fulldataset, all sea star species and with each line an individual size
+setwd("~/Documents/GitHub/nearshore-ProcB_2024")
+
+## full dataset, all sea star species and with each line an individual size
  sswdag <- read_csv("data/20250113_sw_aggregate_2023end.csv", 
     col_types = cols(radius = col_number(), transect_id = col_character(), unit_size = col_character(),
         transect_latitude=col_number(), transect_longitude=col_number(), 
         transect_substrate=col_character(), unit_area_2D = col_number(),
         unit_area_3D = col_number(), site_depth = col_number()))
 
-
-#write.csv(sswdag, "20250113_sw_aggregate_2023end.csv")
-
 ## biomass density data at repeated measures sites
-ssbio<-read_csv("data/ssbio_sswd_data_27Feb25.csv")
+ssbio<-read_csv("data/ssbio_sswd_data_15May24.csv")
 
 
 ##biomass data aligned with oceanography data
@@ -50,54 +66,12 @@ pyc_aligned<-read_csv("data/pyc_biology_ocean_27Feb25.csv")
 
 ```
 
+*Oceanography data - Fig 1, S1 and S2*
+Oceanography data can be visualized at https://data.hakai.org/oceanography/
+and downloaded from https://catalogue.hakai.org/erddap/index.html
 
-*Fig 3*
-```{r}
-#set figure theme
-theme_set(theme_bw() +
-         theme(panel.grid.major.x = element_blank(),
-               panel.grid.major.y = element_blank(),
-               panel.grid.minor = element_blank(),
-               panel.border = element_blank(),
-               panel.background = element_blank(),
-               text = element_text(size=15),
-               #legend.position = "none",
-               axis.line = element_line(colour = "black")))
-
-
-#### 2015 quantile regression #########
-
-size15<-sswdag %>% dplyr::filter(year==2015 & latin_name=="Pycnopodia helianthoides")
-size15$numeric_date<-as.numeric(size15$date)
-
-quant10<-rq(radius~date, tau=0.10, data=size15)
-quant<-rq(radius~date, tau=c(0.90), data=size15)
-
-summary(quant, se="ker")
-summary(quant10, se="ker")
-
-### ggplot directly has quant_reg, but no error bars
-
-gv<-visreg(quant, "date", ylab="Pycnopodia helianthoides radius (cm)", xlab="Date", bty="n", 
-        points=list(col="dodgerblue3"), line=list(col="black"), gg=T)
-#dev.off()
-#png("2015_size_bydate_8Dec23.png", width=700, height=480)
-gv+theme_bw()+
-  theme(panel.grid.major.x = element_blank(),
-                 panel.grid.major.y = element_blank(),
-                 panel.grid.minor = element_blank(),
-                 panel.border = element_blank(),
-                 panel.background = element_blank(),
-                 text = element_text(size=15),
-                 #legend.position = "none",
-                 axis.line = element_line(colour = "black")); gv
-#dev.off()
-  
-
-```
-
-*Fig. 2B*
-```{r}
+*Fig. 2B and S4*
+```{r Figure 2B and S4}
 #################################################################################
 ########################### Fjord size distributions #####################
 #################################################################################
@@ -108,20 +82,26 @@ gv+theme_bw()+
 size_loc.cat<- sswdag %>% dplyr::filter(latin_name=="Pycnopodia helianthoides") %>% 
               mutate(loc.cat=ifelse(site_id=="Kelpie Pt" | site_id=="Mercury" | site_id=="Odlum Pt" | site_id=="Thrasher" | site_id=="kwakshua146" | site_id=="kwakshua0006" | site_id=="kwakshua154" | site_id=="kwakume5041" | site_id=="kwakume5038" | site_id=="kwakume5050"| site_id=="mustang315"| site_id=="mustang0007" | site_id=="mustang314" | site_id=="Meay" | site_id=="Triquet" | site_id=="Westbeach" | site_id=="Golden" | site_id=="Simonds" | site_id=="Simonds NE" | site_id=="Simonds SE" | site_id=="Stryker" | site_id=="Womanley" | site_id=="Triqster" | site_id=="Second (rr)" | site_id=="Second" | site_id=="Manley" | site_id=="Northbeach" | site_id=="Choked Pass"| site_id=="Pruth Bay" | site_id=="Triquet Macro" | site_id=="Triquet (rr)" | site_id=="Choked Lower" | site_id=="Chocked Sandspit" | site_id=="Triquet North" | site_id=="Triquet Bay" | site_id=="Triquetta" | site_id=="McMullin NE" | site_id=="McMullin South" | site_id=="McMullin North" | site_id=="McMullin SE" | site_id=="Goose SW" | site_id=="Goose SE" | site_id=="Goose" | site_id=="Gosling" | site_id=="goodlad0001" | site_id=="goodlad0003" | site_id=="goodlad224"  | site_id=="idk-07-03-2021" | site_id=="tmh-03-12-2021" | site_id=="sky-06-03-2022" | site_id=="ht-20-09-2020" | site_id=="crg-27-09-2020" | site_id=="jct-06-03-2021" | site_id=="kww-27-09-2020" | site_id=="shh-27-09-2020" | site_id=="svp-05-03-2022" | site_id=="hep-18-09-2019" | site_id=="ssw-02-03-2022" | site_id=="fht-20-09-2020" | site_id=="clb-18-09-2019" | site_id=="rds-20-09-2019" | site_id=="har-02-03-2022"|site_id=="Houghton"|site_id=="Fingal"| site_id=="Athabaskan"|site_id=="Robert Island"|site_id=="McNaughton"|site_id=="217"|site_id=="86"|site_id=="34"|site_id=="Hakai0031"|site_id=="Haka0025"|site_id=="Spider Island"|site_id=="317"|site_id=="312"|site_id=="Breaker"|site_id=="Hakai0017"|site_id=="Hakai0016"|site_id=="Hakai0015"|site_id=="Hakai0014"|site_id=="Hakai0013"|site_id=="Hakai0012"|site_id=="5901"|site_id=="5044"|site_id=="5041"| site_id=="5046"|site_id=="5049"|site_id=="5042"|site_id=="5047"|site_id=="5040"|site_id=="5040"|site_id=="5067"|site_id=="5069"|site_id=="5076"|site_id=="5077"|site_id=="5078"|site_id=="6012"|site_id=="Hakai0008"|site_id=="trg2-25-08-2018" | site_id=="Hakai0025" | site_id=="Manley Pt" | site_id=="mustang320" | site_id=="Starfish"|site_id=="Starfish S"|site_id=="Choked Sandspit"|site_id=="Hakai0005"| site_id=="jct-27-09-2020"| site_id=="Hakai0014.5" | site_id=="rdd-19-09-2019"| site_id=="5902", "outer","fjord"))
              
+struct3<-size_loc.cat %>% group_by(year, loc.cat) %>% count(site_id) %>% count(loc.cat)
+
+size_loc.cat1<- size_loc.cat %>% left_join(struct3)
+
 ### combined all sites in one figure
 
-all<- size_loc.cat %>% tidyr::drop_na(radius, year) %>% 
+all<- size_loc.cat1 %>% tidyr::drop_na(radius, year) %>% 
   ggplot(aes(year, radius, color=loc.cat), fill=loc.cat)+
   ggdist::stat_eye(
     adjust = .5,
     width = 1.3, 
     ## set slab interval to show IQR and 95% data range https://cran.r-project.org/web/packages/ggdist/vignettes/slabinterval.html
     .width = c(.5, 0.95), position=position_dodge(width=0.6)) + 
+  #geom_text(aes(x=year, y=60, label=n), position = position_dodge(width=0.9), size=6)+
   ylab("Size (radius, cm)")+
   scale_x_continuous(limits= c(2012,2024), breaks=seq(2013,2023,1)) +
   scale_y_continuous(limits = c(0,60)) +
   scale_color_manual(values=c("dodgerblue3","darkorange2")) +
-           geom_hline(yintercept=11, linetype=c("dashed"))+
+  geom_text(aes(x=year, y=60, label=n), position = position_dodge(width=0.9), size=6)+
+            geom_hline(yintercept=11, linetype=c("dashed"))+
            geom_hline(yintercept=0)+
            theme_bw() +
            theme(panel.grid.major.x = element_blank(),
@@ -130,9 +110,9 @@ all<- size_loc.cat %>% tidyr::drop_na(radius, year) %>%
                  panel.border = element_blank(),
                  panel.background = element_blank(),
                  text = element_text(size=15),
-                 #legend.position = "none",
+                 legend.position = "none",
                  axis.line = element_line(colour = "black"))
-#pdf("Pycno_size_loc.cat_rainplot_2Nov23.pdf", height=5, width=10)
+#pdf("Fig2_28Feb25.pdf", height=5, width=10)
 #png("Pycno_size_loc.cat_rainplot_2Nov23.pdf", height=480, width=960)
 all
 #dev.off()
@@ -180,6 +160,7 @@ size_adonis
 
 #Figures S4
 ## size community and location catagory
+#png("FigS4_28Feb25.png", height=10, width=12, units='cm', res=600)
 ggplot(size_nmds5, aes(NMDS1, NMDS2, colour=loc.cat))+geom_point()+
   stat_ellipse(aes(x=NMDS1,y=NMDS2,colour=loc.cat),level = 0.50) +
   scale_color_manual(values=c("dodgerblue3","darkorange2")) +
@@ -192,11 +173,11 @@ ggplot(size_nmds5, aes(NMDS1, NMDS2, colour=loc.cat))+geom_point()+
                  text = element_text(size=15),
                  #legend.position = "none",
                  axis.line = element_line(colour = "black"))
-
+#dev.off()
 ```
 
 *Fig. 3*
-```{r}
+```{r Figure 3}
 #set figure theme
 theme_set(theme_bw() +
          theme(panel.grid.major.x = element_blank(),
@@ -221,7 +202,7 @@ wp.sp2<- sswdag %>% dplyr::filter(project!="Rocky Intertidal") %>%
         group_by(project, survey, year, day_month, date,site_id, site_habitat,latin_name, site_latitude, site_longitude, unit_depth_corrected) %>% count(wasting)
 
 ## Figure 3 - wasting score by date
-#png("wasting_score_bydate_6May24.png")
+#png("Fig 3_28Feb25.png", height=10, width=20, units='cm', res=600)
 pl2<-ggplot(wp.sp.loc)+
   geom_jitter(aes(year(date), month(date), size=factor(wasting), color=loc.cat), width = 0, height=.2, alpha=0.5)+
   xlab("Year")+ ylab("Month")+
@@ -232,8 +213,8 @@ pl2
 
 ```
 
-*Fig. 4 and Table 2 GAMs*
-```{r}
+*Fig. 4 and Table 2*
+```{r Figure 4 and Table 2}
 library(itsadug)
 library(ggeffects)
 library(MapGAM)
@@ -285,9 +266,6 @@ summary(gamm1.03$gam)
 
 tab_model(gamm1.03$gam)
 
-## using overleaf and then google sheets to get to final version 
-gamtabs(gamm1.03$gam, type="Latex")
-
 draw(gamm1.03$gam)
 ### hand draw in gratia
 plotdata<-ssbio.pyc %>% select(date, ndate, nmonth, latitude, longitude, transectid, site_id, depth_bin, biomass_density) %>% na.omit() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01")) ## backtransforms the as.numeric(date) because somehow 1970 was the start of counting?
@@ -295,8 +273,6 @@ plotdata<-ssbio.pyc %>% select(date, ndate, nmonth, latitude, longitude, transec
 sm <- smooth_estimates(gamm1.03$gam) %>%
   add_confint() %>% mutate(trans_ndate=as.Date(ndate, "1970-01-01"))
 
-resid<- plotdata %>% add_partial_residuals(gamm1.03$gam)
-  
 ## smooth over date
 cp<- sm %>%
   dplyr::filter(.smooth == "s(ndate)") %>%
@@ -306,8 +282,6 @@ cp<- sm %>%
            sides = "b", length = grid::unit(0.02, "npc")) +
   geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci, x = trans_ndate),
               alpha = 0.2) +
-  geom_point(aes(x = trans_ndate, y = `s(ndate)`, color=site_id),
-             data = resid, cex = 1.5, colour = "dodgerblue3") +
   geom_line(aes(x = trans_ndate, y = .estimate), lwd = 1.2) +
   labs(y = "Partial effect", x="Date", title=expression("Biomass density (kg/10"~m^-2~")"))+
   theme_bw()+
@@ -328,16 +302,14 @@ cp
 ### now with month ###
 
 mp<- sm %>%
-  dplyr::filter(smooth == "s(nmonth)") %>%
+  dplyr::filter(.smooth == "s(nmonth)") %>%
   ggplot() +
   geom_rug(aes(x = nmonth),
            data = plotdata,
            sides = "b", length = grid::unit(0.02, "npc")) +
-  geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, x = nmonth),
+  geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci, x = nmonth),
               alpha = 0.2) +
-  geom_point(aes(x = nmonth, y = `s(nmonth)`),
-             data = resid, cex = 1.5, colour = "dodgerblue3") +
-  geom_line(aes(x = nmonth, y = est), lwd = 1.2) +
+  geom_line(aes(x = nmonth, y = .estimate), lwd = 1.2) +
   labs(y = "Partial effect", x="Month")+theme_bw()+
   scale_x_continuous(breaks=c(1:11))+
   theme(panel.grid.major.x = element_blank(),
@@ -354,7 +326,7 @@ mp
 #dev.off()
 
 #Figure 4
-#png("biomass_density_year_month_7Dec23.png", width=1000, height=960)
+#png("biomass_density_year_month_28Feb25.png", width=14, height=14, units = 'cm', res=600)
 cowplot::plot_grid(cp, mp, nrow=2, labels = c("A", "B"))
 #dev.off()
 
@@ -362,8 +334,8 @@ cowplot::plot_grid(cp, mp, nrow=2, labels = c("A", "B"))
 
 ```
 
-*Fig 5*
-```{r}
+*Fig 5 and Table 3*
+```{r Figure 5 and Table 3}
 
 #transform data for gam
 ssbio.pyc.o <- transform(pyc_aligned, ndate = as.numeric(date),
@@ -427,8 +399,9 @@ plot.ll<-gratia::draw(gam4, select="s(site_longitude,site_latitude)", residuals=
 
 
 ### Overlay map
-
-bc.sf <- 'data/GIS data/BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125m/250_CST_PY_polygon.shp'
+#setwd so map can load
+setwd("~/Documents/GitHub/nearshore-ProcB_2024/data/GIS data/BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125M")
+bc.sf <- '250_CST_PY_polygon.shp'
 
 bc <- st_read(bc.sf) %>% 
   subset(QCST_TAG != 'OCEAN')
@@ -442,12 +415,15 @@ plot.ll.land <- plot.ll +
   coord_sf(xlim = c(-127.3913, -128.3646), ylim = c(51.41033, 52.08358), expand = FALSE)
 
 plot.ll.land
+#reset wd back to main files
+setwd("~/Documents/GitHub/nearshore-ProcB_2024")
 
 ### salinity by temp
 
 #Figure 5 
 ## biomass density by temp/sal
-#png("drivers_biomassdensity_31Jan24.png", width=1000, height=1000)
+#png("drivers_biomassdensity_28Feb25.png", width=20, height=20, units='cm', res=600)
+#pdf("drivers_biomassdensity_28Feb24.pdf", height=12, width=12)
 bottomrow<-cowplot::plot_grid(plot.tso, plot.tsf, labels=c("B", "C"), label_size=14)
 cowplot::plot_grid(plot.ll.land, bottomrow, labels=c("A", ''), nrow=2, label_size=14)
 #dev.off()
@@ -455,9 +431,82 @@ cowplot::plot_grid(plot.ll.land, bottomrow, labels=c("A", ''), nrow=2, label_siz
 
 ```
 
+*Fig 6*
+```{r Figure 6}
+p2o<- ssbio.pyc.o2 %>% 
+  ggplot(aes(salinity.psu, unit_depth_corrected, color=temp.deg.c, shape=as.factor(year(date))))+
+  geom_jitter(width = 0.0001, height = 0.4)+
+  scale_color_continuous(type='viridis')+
+  facet_grid(rows=vars(loc.cat))+
+  scale_y_continuous(trans="reverse")+
+  xlab("Salinity (PSU)")+ylab("Tide corrected depth (m)")+
+  labs(color=(expression("Temperature " ( degree~C))), shape="Year")+
+  theme_bw() +
+         theme(panel.grid.major = element_blank(),
+               panel.grid.minor = element_blank(),
+               #panel.border = element_blank(),
+               panel.background = element_blank(),
+               text = element_text(size=20),
+               #legend.position = "none",
+               axis.text.x = element_text(angle=45, hjust=1),
+               axis.line = element_line(colour = "black"))
+#ng("Fig6_28Feb25.png", width=18, height=18, units='cm', res=600)
+p2o
+#dev.off()
 
-*tables of data for publication (supplement Table 2 and 3)*
-```{r}
+```
+
+
+*Fig S3*
+```{r Figure S3}
+#set figure theme
+theme_set(theme_bw() +
+         theme(panel.grid.major.x = element_blank(),
+               panel.grid.major.y = element_blank(),
+               panel.grid.minor = element_blank(),
+               panel.border = element_blank(),
+               panel.background = element_blank(),
+               text = element_text(size=15),
+               #legend.position = "none",
+               axis.line = element_line(colour = "black")))
+
+
+#### 2015 quantile regression #########
+
+size15<-sswdag %>% dplyr::filter(year==2015 & latin_name=="Pycnopodia helianthoides")
+size15$numeric_date<-as.numeric(size15$date)
+
+quant10<-rq(radius~date, tau=0.10, data=size15)
+quant<-rq(radius~date, tau=c(0.90), data=size15)
+
+summary(quant, se="ker")
+summary(quant10, se="ker")
+
+### ggplot directly has quant_reg, but no error bars
+
+gv<-visreg(quant, "date", ylab="Pycnopodia helianthoides radius (cm)", xlab="Date", bty="n", 
+        points=list(col="dodgerblue3"), line=list(col="black"), gg=T)
+
+
+#png("FigS3_28Feb25.png", width=12, height=10, units='cm', res=600)
+gv+theme_bw()+
+  theme(panel.grid.major.x = element_blank(),
+                 panel.grid.major.y = element_blank(),
+                 panel.grid.minor = element_blank(),
+                 panel.border = element_blank(),
+                 panel.background = element_blank(),
+                 text = element_text(size=15),
+                 #legend.position = "none",
+                 axis.line = element_line(colour = "black")); gv
+#dev.off()
+  
+
+```
+
+
+
+*tables of data for publication (supplement Table S2 and S3)*
+```{r Table S2 and S3}
 
 ## Table 2
 size_data<-sswdag %>% dplyr::filter(project!="CCIRA") %>% 
@@ -466,7 +515,7 @@ size_data<-sswdag %>% dplyr::filter(project!="CCIRA") %>%
 
 
 ## Table 3 pycnopodia biomass density data used
-bd_data<-pyc.aligned %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
+bd_data<-pyc_aligned %>%   dplyr::group_by(site_id, site_latitude, site_longitude) %>% 
                       summarize(min_year=year(min(date)), max_year=year(max(date)), n())
 
 #write.csv(bd_data, "Fig7_Table3_dataset_26Oct23.csv")

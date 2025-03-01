@@ -1,40 +1,40 @@
 data_file,variable,units,comment
-20231102_sw_aggregate_ccirana.csv,project,-,Project for which the data was collected
-20231102_sw_aggregate_ccirana.csv,survey,-,Survey methods used to collect the data
-20231102_sw_aggregate_ccirana.csv,year,YYYY,Year in which the data was collected
-20231102_sw_aggregate_ccirana.csv,month,M,Month in which the data was collected
-20231102_sw_aggregate_ccirana.csv,day_month,mmm YY,Month-year in which the data was collected
-20231102_sw_aggregate_ccirana.csv,date,YYYY-MM-DD,Day on which the data was collected
-20231102_sw_aggregate_ccirana.csv,time_pt,YYYY-MM-DD HH:MM:SS,Time in PST/PDT at which the survey was started
-20231102_sw_aggregate_ccirana.csv,time_utc,YYYY-MM-DD HH:MM:SS,Time in UTC at which the survey was started
-20231102_sw_aggregate_ccirana.csv,time_utc_round,YYYY-MM-DD HH:MM:SS,"Time in UTC at which the survey was started, rounded to the nearest half hour"
-20231102_sw_aggregate_ccirana.csv,observer,-,Initials of the individual(s) who collected the data
-20231102_sw_aggregate_ccirana.csv,site_id,-,Code for the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,site_habitat,-,Dominant habitat for the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,site_latitude,decimal degrees,Latitude of the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,site_longitude,decimal degrees,Longitude of the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,site_substrate,-,Dominant geologic substrate(s) for the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,site_depth,m,Average depth of the site in which the data was collected
-20231102_sw_aggregate_ccirana.csv,transect_id,-,Code for the transect in which the data was collected
-20231102_sw_aggregate_ccirana.csv,transect_latitude,decimal degrees,Latitude of the transect in which the data was collected
-20231102_sw_aggregate_ccirana.csv,transect_longitude,decimal degrees,Longitude of the transect in which the data was collected
-20231102_sw_aggregate_ccirana.csv,transect_substrate,-,Dominant geologic substrate(s) for the transect in which the data was collected
-20231102_sw_aggregate_ccirana.csv,experimental_unit,-,"Type of experimental unit that was surveyed (i.e. quadrat, transect)"
-20231102_sw_aggregate_ccirana.csv,unit_id,-,Code for the experimental unit which was surveyed; sometimes the same as transect_id
-20231102_sw_aggregate_ccirana.csv,unit_size,m,Size of the experimental unit which was surveyed
-20231102_sw_aggregate_ccirana.csv,unit_area_2D,m^2,Two dimensional area of the experimental unit which was surveyed
-20231102_sw_aggregate_ccirana.csv,unit_area_3D,m^2,Three dimensional area of the experimental unit which was surveyed; only for intertidal data; obtained from drone mapping
-20231102_sw_aggregate_ccirana.csv,unit_substrate,-,Dominant geologic substrate(s) of the experimental unit which was surveyed
-20231102_sw_aggregate_ccirana.csv,unit_depth,m,Average real depth of of the experimental unit which was surveyed
-20231102_sw_aggregate_ccirana.csv,unit_depth_corrected,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum"
-20231102_sw_aggregate_ccirana.csv,taxon_code,-,Taxonomic code for the surveyed sea star
-20231102_sw_aggregate_ccirana.csv,latin_name,-,Latin name for the surveyed sea star
-20231102_sw_aggregate_ccirana.csv,common_name,-,Common name for the surveyed sea star
-20231102_sw_aggregate_ccirana.csv,radius,cm,"Radius of the surveyed sea star, from centre to end of arm"
-20231102_sw_aggregate_ccirana.csv,wasting,Categorical (0-4),"Wasting disease score of the surveyed sea star, from healthy (0) to dissolved (4)"
-20231102_sw_aggregate_ccirana.csv,notes,-,Any pertinent remarks about the record
-20231102_sw_aggregate_ccirana.csv,entered_by,-,Initials of the individual who entered the data
-20231102_sw_aggregate_ccirana.csv,checked_by,-,Initials of the individual who quality controlled the data
+20231113_sw_aggregate_end2023.csv,project,-,Project for which the data was collected
+20231113_sw_aggregate_end2023.csv,survey,-,Survey methods used to collect the data
+20231113_sw_aggregate_end2023.csv,year,YYYY,Year in which the data was collected
+20231113_sw_aggregate_end2023.csv,month,M,Month in which the data was collected
+20231113_sw_aggregate_end2023.csv,day_month,mmm YY,Month-year in which the data was collected
+20231113_sw_aggregate_end2023.csv,date,YYYY-MM-DD,Day on which the data was collected
+20231113_sw_aggregate_end2023.csv,time_pt,YYYY-MM-DD HH:MM:SS,Time in PST/PDT at which the survey was started
+20231113_sw_aggregate_end2023.csv,time_utc,YYYY-MM-DD HH:MM:SS,Time in UTC at which the survey was started
+20231113_sw_aggregate_end2023.csv,time_utc_round,YYYY-MM-DD HH:MM:SS,"Time in UTC at which the survey was started, rounded to the nearest half hour"
+20231113_sw_aggregate_end2023.csv,observer,-,Initials of the individual(s) who collected the data
+20231113_sw_aggregate_end2023.csv,site_id,-,Code for the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,site_habitat,-,Dominant habitat for the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,site_latitude,decimal degrees,Latitude of the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,site_longitude,decimal degrees,Longitude of the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,site_substrate,-,Dominant geologic substrate(s) for the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,site_depth,m,Average depth of the site in which the data was collected
+20231113_sw_aggregate_end2023.csv,transect_id,-,Code for the transect in which the data was collected
+20231113_sw_aggregate_end2023.csv,transect_latitude,decimal degrees,Latitude of the transect in which the data was collected
+20231113_sw_aggregate_end2023.csv,transect_longitude,decimal degrees,Longitude of the transect in which the data was collected
+20231113_sw_aggregate_end2023.csv,transect_substrate,-,Dominant geologic substrate(s) for the transect in which the data was collected
+20231113_sw_aggregate_end2023.csv,experimental_unit,-,"Type of experimental unit that was surveyed (i.e. quadrat, transect)"
+20231113_sw_aggregate_end2023.csv,unit_id,-,Code for the experimental unit which was surveyed; sometimes the same as transect_id
+20231113_sw_aggregate_end2023.csv,unit_size,m,Size of the experimental unit which was surveyed
+20231113_sw_aggregate_end2023.csv,unit_area_2D,m^2,Two dimensional area of the experimental unit which was surveyed
+20231113_sw_aggregate_end2023.csv,unit_area_3D,m^2,Three dimensional area of the experimental unit which was surveyed; only for intertidal data; obtained from drone mapping
+20231113_sw_aggregate_end2023.csv,unit_substrate,-,Dominant geologic substrate(s) of the experimental unit which was surveyed
+20231113_sw_aggregate_end2023.csv,unit_depth,m,Average real depth of of the experimental unit which was surveyed
+20231113_sw_aggregate_end2023.csv,unit_depth_corrected,m,"Average real depth of of the experimental unit which was surveyed, corrected to Canadian chart datum"
+20231113_sw_aggregate_end2023.csv,taxon_code,-,Taxonomic code for the surveyed sea star
+20231113_sw_aggregate_end2023.csv,latin_name,-,Latin name for the surveyed sea star
+20231113_sw_aggregate_end2023.csv,common_name,-,Common name for the surveyed sea star
+20231113_sw_aggregate_end2023.csv,radius,cm,"Radius of the surveyed sea star, from centre to end of arm"
+20231113_sw_aggregate_end2023.csv,wasting,Categorical (0-4),"Wasting disease score of the surveyed sea star, from healthy (0) to dissolved (4)"
+20231113_sw_aggregate_end2023.csv,notes,-,Any pertinent remarks about the record
+20231113_sw_aggregate_end2023.csv,entered_by,-,Initials of the individual who entered the data
+20231113_sw_aggregate_end2023.csv,checked_by,-,Initials of the individual who quality controlled the data
 ssbio_sswd_data_15May24.csv,unit_id_depth,-,"Concatenated field for grouped experimental unit, date, site and depth"
 ssbio_sswd_data_15May24.csv,latin_name,-,Latin name for the surveyed sea star
 ssbio_sswd_data_15May24.csv,project,-,Project for which the data was collected
