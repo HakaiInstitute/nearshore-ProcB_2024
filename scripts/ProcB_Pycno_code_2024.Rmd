@@ -21,7 +21,11 @@ Keywords: sea star wasting disease, infection, marine, refuge habitat
 Abstract:
 Disease outbreaks as a driver of wildlife mass mortality events have increased in magnitude and frequency since the 1940s. Remnant populations, composed of individuals that survived mass mortality events, could provide insight into disease dynamics, and species recovery. The sea star wasting disease (SSWD) epidemic led to the rapid >90% decline of the sunflower star Pycnopodia helianthoides. We surveyed the biomass density of P. helianthoides on the central British Columbia coast before, during and after the arrival of SSWD by conducting expert diver surveys in shallow subtidal habitats from 2013-2023. We found a rapid decline in biomass density following the onset of SSWD in 2015. Despite consistent recruitment post-outbreak to sites associated with outer islands, we found repeated loss of large adult individuals over multiple years. Within nearby fjord habitats, we found remnant populations composed of large adult P. helianthoides. The interaction of temperature and salinity with P. helianthoides biomass density varied by location, with high biomass density associated with higher temperatures in the outer islands, and associated with lower temperatures and higher salinity in the fjords. These patterns suggest that fjords provide refuge from consequences of SSWD and protecting these populations could be imperative for the species.
 
-
+ *set working directory to project folder*
+```{r}
+library(rprojroot)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
 
  *load and clean data*
 ```{r}
@@ -38,7 +42,6 @@ library(purrr)
 library(lubridate)
 library(RColorBrewer)
 library(mgcv)
-library(tidymv)
 library(cowplot)
 library(stringr)
 library(ggdist) #for fancy plots with distribtuions
@@ -48,21 +51,19 @@ library(gratia)
 library(sjPlot)
 library(vegan)
 
-setwd("~/Documents/GitHub/nearshore-ProcB_2024")
-
 ## full dataset, all sea star species and with each line an individual size
- sswdag <- read_csv("data/20250113_sw_aggregate_2023end.csv", 
+ sswdag <- read_csv("./data/20250113_sw_aggregate_2023end.csv", 
     col_types = cols(radius = col_number(), transect_id = col_character(), unit_size = col_character(),
         transect_latitude=col_number(), transect_longitude=col_number(), 
         transect_substrate=col_character(), unit_area_2D = col_number(),
         unit_area_3D = col_number(), site_depth = col_number()))
 
 ## biomass density data at repeated measures sites
-ssbio<-read_csv("data/ssbio_sswd_data_15May24.csv")
+ssbio<-read_csv("./data/ssbio_sswd_data_15May24.csv")
 
 
 ##biomass data aligned with oceanography data
-pyc_aligned<-read_csv("data/pyc_biology_ocean_27Feb25.csv")
+pyc_aligned<-read_csv("./data/pyc_biology_ocean_27Feb25.csv")
 
 ```
 
@@ -76,7 +77,7 @@ and downloaded from https://catalogue.hakai.org/erddap/index.html
 ########################### Fjord size distributions #####################
 #################################################################################
 
-### data split by location catagory
+### data split by location category
 
 ## correct fjord and outer delineation        
 size_loc.cat<- sswdag %>% dplyr::filter(latin_name=="Pycnopodia helianthoides") %>% 
@@ -382,9 +383,8 @@ plot.ll<-gratia::draw(gam4, select="s(site_longitude,site_latitude)", residuals=
 
 
 ### Overlay map
-#setwd so map can load
-setwd("~/Documents/GitHub/nearshore-ProcB_2024/data/GIS data/BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125M")
-bc.sf <- '250_CST_PY_polygon.shp'
+#load shapefile
+bc.sf <- './data/GIS data/BC SHAPEFILE/NTS_BC_COASTLINE_POLYS_125M/250_CST_PY_polygon.shp'
 
 bc <- st_read(bc.sf) %>% 
   subset(QCST_TAG != 'OCEAN')
@@ -396,9 +396,6 @@ plot.ll.land <- plot.ll +
   geom_point(data = ssbio.pyc.o2, aes(x = site_longitude,
                                       y = site_latitude)) +
   coord_sf(xlim = c(-127.3913, -128.3646), ylim = c(51.41033, 52.08358), expand = FALSE)
-
-#reset wd back to main files
-setwd("~/Documents/GitHub/nearshore-ProcB_2024")
 
 ### salinity by temp
 
